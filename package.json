@@ -8,5 +8,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vercel/node": "^5.3.16",
+    "typescript": "^5.9.2"
+  }
 }
