@@ -48,9 +48,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: "Prediction failed" });
     }
 
-    // 3. Return Granite’s final response
-    return res.status(200).json({ output: result.output });
+    // Step 3. Concatenate output tokens into one string
+    const fullResponse = Array.isArray(result.output)
+      ? result.output.join("")
+      : result.output;
 
+    // Step 4. Return only the final string
+    return res.status(200).json({ text: fullResponse });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
