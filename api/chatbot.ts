@@ -54,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       : result.output;
 
     // Step 4. Return only the final string
-    return res.status(200).json({ text: fullResponse });
+    return res.status(200).json({ output: fullResponse });
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
