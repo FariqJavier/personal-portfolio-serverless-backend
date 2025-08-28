@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       'https://api-inference.huggingface.co/models/ibm-granite/granite-3.3-8b-instruct',
       {
         headers: {
-          Authorization: `Bearer ${process.env.HF_TOKEN}`,
+          Authorization: `Bearer ${process.env.GRANITE_HF_TOKEN}`,
           'Content-Type': 'application/json',
         },
         method: 'POST',
