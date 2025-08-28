@@ -1,6 +1,21 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const allowedOrigins = [
+    "http://localhost:3000",         // for local dev
+    "https://fariqjavier.github.io"  // your GitHub Pages domain
+  ];
+
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
