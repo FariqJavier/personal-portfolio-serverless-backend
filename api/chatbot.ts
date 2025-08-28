@@ -14,21 +14,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const finalPrompt = `${systemPrompt}\n\nUser: ${prompt}\nAssistant:`;
 
   try {
-    // 1. Create the prediction
     const response = await fetch("https://api.replicate.com/v1/predictions", {
-      method: "POST",
-      headers: {
-        Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-      inputs: finalPrompt,
-      parameters: {
-        max_new_tokens: 80,   // keep answers short
-        temperature: 0.7,     // balance creativity & focus
-        top_p: 0.9
-      },
-    }),
+        method: "POST",
+        headers: {
+            Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            version: process.env.GRANITE_MODEL_VERSION,
+            inputs: finalPrompt,
+            parameters: {
+                max_new_tokens: 80,   // keep answers short
+                temperature: 0.7,     // balance creativity & focus
+                top_p: 0.9
+            },
+        }),
     });
 
     // if (prediction.error) {
