@@ -12,27 +12,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
 
-    const hfResponse = await fetch(
-      'https://api-inference.huggingface.co/models/ibm-granite/granite-3.3-8b-instruct',
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.GRANITE_HF_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ inputs: prompt }),
-      }
-    );
+    const replicateResponse = await fetch("https://api.replicate.com/v1/predictions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Token ${process.env.REPLICATE_API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        version: process.env.GRANITE_MODEL_VERSION,
+        input: { prompt }
+      }),
+    });
 
-    if (!hfResponse.ok) {
-      const errText = await hfResponse.text();
-      return res.status(hfResponse.status).json({ error: errText });
+    const data = await replicateResponse.json();
+
+    if (!replicateResponse.ok) {
+      return res.status(replicateResponse.status).json({ error: data });
     }
 
-    const data = await hfResponse.json();
     return res.status(200).json(data);
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
 }
-
