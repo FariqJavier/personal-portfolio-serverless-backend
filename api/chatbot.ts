@@ -22,8 +22,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
         body: JSON.stringify({
             version: process.env.GRANITE_MODEL_VERSION,
-            inputs: finalPrompt,
-            parameters: {
+            inputs: {
+                prompt: finalPrompt,
                 max_new_tokens: 80,   // keep answers short
                 temperature: 0.7,     // balance creativity & focus
                 top_p: 0.9
